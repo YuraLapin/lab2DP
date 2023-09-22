@@ -3,285 +3,165 @@
 <html>
 
     <head>
-
         <meta charset="UTF-8">
-        <title>Любимые песни</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>  
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>      
-        <link rel="stylesheet" href="\static\styles\index\mainareastyle.css">
-        <link rel="stylesheet" href="\static\styles\index\leftpanelstyle.css">
-        <link rel="stylesheet" href="\static\styles\index\tablestyle.css">
-        
+        <link rel="stylesheet" href="style.css">
+        <title>Таблица Трисемуса</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     </head>
 
     <body class="body">
 
-        <input type="hidden" id="loginData" value="{{user|safe}}">
-        
-        <div class="left-panel">
+        <t class="label">Фраза</t>
+        <input type="text" id="phrase" class="text-field"></input>
 
-            {% if user == 'admin' or user == 'manager' %}
-                <fieldset class="button-container">    
+        <t class="label">Ключ</t>
+        <input type="text" id="key" class="text-field"></input>
 
-                    <t class="button-container-title">REQUESTS</t>           
-                    <button class="button" id="request0">Request 1</button>
-                    <button class="button" id="request1">Request 2</button>
-                    <button class="button" id="request2">Request 3</button>
-                    <button class="button" id="request3">Request 4</button>
-                    <button class="button" id="request4">Request 5</button>
-                    <button class="button" id="request5">Request 6</button>
-                    <button class="button" id="request6">Request 7</button>
-                    <button class="button" id="request7">Request 8</button>
+        <button id="confirm" class="button">Зашифровать</button>
 
-            </fieldset>
-            {% endif %}
+        <t id="resultMessage" class="result-message" hidden></t>
+        <t id="errorMessage" class="error-message" hidden></t>
 
-            <fieldset class="button-container">
-
-                <t class="button-container-title">TABLES</t>           
-                <button class="button" id="artistButton">Artists</button>
-                <button class="button" id="bandButton">Bands</button>
-                <button class="button" id="albumButton">Albums</button>
-                <button class="button" id="songButton">Songs</button>
-                <button class="button" id="genreButton">Genres</button>
-
-                {% if user == 'admin' or user == 'manager' %}
-                    <button class="button" id="past_surveyButton">Past_Surveys</button>
-                    <button class="button" id="former_respondentButton">Former_Respondents</button>
-                    <button class="button" id="surveyButton">Surveys</button>
-                    <button class="button" id="respondentButton">Respondents</button>
-                    <button class="button" id="categoryButton">Categories</button>
-                {% endif %}
-
-            </fieldset>
-
-            <fieldset class="button-container">
-
-                <t class="button-container-title">Surveys</t>           
-                <button class="button" id="mainSurveyButton">Top 5 songs</button>
-
-            </fieldset>
-
-            {% if user == 'admin' %}
-                <fieldset class="button-container">
-
-                    <t class="button-container-title">Admin Tools</t>           
-                    <button class="button" id="sqlQueryButton">SQL Query</button>
-
-                </fieldset>
-            {% endif %}
-
-            {% if user == 'admin' or user == 'manager' %}
-                <fieldset class="button-container">
-
-                    <t class="button-container-title">Manager Tools</t>           
-                    <button class="button" id="managerButtonSong">Add Song</button>
-                    <button class="button" id="managerButtonAlbum">Add Album</button>
-                    <button class="button" id="managerButtonBand">Add Band</button>
-                    <button class="button" id="managerButtonGenre">Add Genre</button>
-                    <button class="button" id="managerButtonArtist">Add Artist</button>
-
-                </fieldset>
-            {% endif %}
-
-            {% if user != '' %}
-                <form class="button-container" action="/login">
-
-                    <t class="button-container-title">User - {{ user }}</t>           
-                    <button class="button" id="logOutButton">Log Out</button>
-
-                </form>
-            {% endif %}            
-
-        </div>
-
-
-        <div>
-
-            <div class="container" id="tableContainer" style="z-index: 1">  
-
-                <t class="label" id="requestLabel">REQUEST</t>
-                <t class="smaller-name" id="requestDescription"></t>
-                <t class="name" id="requestName"></t>
-                <table class="table" id="requestResult"></table>
-    
-            </div>  
-
-            <div class="container" id="surveyContainer" style="z-index: -1">
-
-                <t class="label">SURVEY</t>
-                <t class="name">Top 5 songs</t>
-
-                <fieldset class="field">
-
-                    <input type="text" class="text-area" id="surveyNameTextArea" placeholder="Your name..."></input>
-                    <input type="text" class="text-area" id="surveyAgeTextArea" placeholder="Your age..."></input>
-
-                    <select class="select" id="surveySelectGender">
-
-                        <option value="" disabled selected="selected" hidden>Your gender</option>
-                        <option value="0">Male</option>
-                        <option value="1">Female</option>
-
-                    </select>
-
-                    <div class="select-with-name">
-                        <t class="select-name">#1</t>
-                        <select class="select" id="surveySelect0"><option value="" disabled selected="selected" hidden>Song 1</option></select>
-                    </div>
-                    <div class="select-with-name">
-                        <t class="select-name">#2</t>
-                        <select class="select" id="surveySelect1"><option value="" disabled selected="selected" hidden>Song 1</option></select>
-                    </div>
-                    <div class="select-with-name">
-                        <t class="select-name">#3</t>
-                        <select class="select" id="surveySelect2"><option value="" disabled selected="selected" hidden>Song 1</option></select>
-                    </div>
-                    <div class="select-with-name">
-                        <t class="select-name">#4</t>
-                        <select class="select" id="surveySelect3"><option value="" disabled selected="selected" hidden>Song 1</option></select>
-                    </div>
-                    <div class="select-with-name">
-                        <t class="select-name">#5</t>
-                        <select class="select" id="surveySelect4"><option value="" disabled selected="selected" hidden>Song 1</option></select>
-                    </div>                    
-                    
-                    {% if survey == False %}
-                        <t class="error-message" id="surveyErrorMessage" hidden></t>
-                        <t class="success-message" id="surveySuccessMessage" hidden></t>
-                        <button class="send-button" id="surveySendButton">Send</button>
-                    {% endif %}
-
-                </fieldset>
-
-            </div>
-
-            {% if user == 'manager' or user == 'admin' %}
-                <div class="container" id="managerContainerSong" style="z-index: -1">
-
-                    <t class="label">Tool</t>
-                    <t class="name">Add Song</t>
-
-                    <fieldset class="field">
-
-                        <input type="text" class="text-area" id="songNameTextArea" placeholder="Song name"></input>
-                        <input type="text" class="text-area" id="songDurationTextArea" placeholder="Song duration (seconds)"></input>
-                        <select class="select" id="albumSelect"><option value="" disabled selected="selected" hidden>Album</option></select>
-                        <select class="select" id="genreSelect"><option value="" disabled selected="selected" hidden>Genre</option></select>
-                        <t class="error-message" id="songErrorMessage" hidden></t>
-                        <t class="success-message" id="songSuccessMessage" hidden></t>
-                        <button class="send-button" id="songAddButton">Add</button>
-
-                    </fieldset>
-
-                </div>
-            {% endif %}
-
-            {% if user == 'manager' or user == 'admin' %}
-                <div class="container" id="managerContainerAlbum" style="z-index: -1">
-
-                    <t class="label">Tool</t>
-                    <t class="name">Add Album</t>
-
-                    <fieldset class="field">
-                    
-                        <input type="text" class="text-area" id="albumNameTextArea" placeholder="Album name"></input>
-                        <input type="text" class="text-area" id="albumYearTextArea" placeholder="Album release year"></input>
-                        <select class="select" id="bandSelect"><option value="" disabled selected hidden>Band</option></select>
-                        <t class="error-message" id="albumErrorMessage" hidden></t>
-                        <t class="success-message" id="albumSuccessMessage" hidden></t>
-                        <button class="send-button" id="albumAddButton">Add</button>
-
-                    <fieldset class="field">
-
-                </div>
-            {% endif %}
-
-            {% if user == 'manager' or user == 'admin' %}
-                <div class="container" id="managerContainerBand" style="z-index: -1">
-
-                    <t class="label">Tool</t>
-                    <t class="name">Add Band</t>
-
-                    <fieldset class="field">
-
-                        <input type="text" class="text-area" id="bandNameTextArea" placeholder="Band name"></input>
-                        <input type="text" class="text-area" id="bandYearTextArea" placeholder="Band formation year (can be empty)"></input>
-                        <t class="error-message" id="bandErrorMessage" hidden></t>
-                        <t class="success-message" id="bandSuccessMessage" hidden></t>
-                        <button class="send-button" id="bandAddButton">Add</button>
-
-                    </fieldset>
-
-                </div>
-            {% endif %}  
-            
-            {% if user == 'manager' or user == 'admin' %}
-                <div class="container" id="managerContainerGenre" style="z-index: -1">
-
-                    <t class="label">Tool</t>
-                    <t class="name">Add Genre</t>
-
-                    <fieldset class="field">
-
-                        <input type="text" class="text-area" id="genreNameTextArea" placeholder="Genre name"></input>
-                        <t class="error-message" id="genreErrorMessage" hidden></t>
-                        <t class="success-message" id="genreSuccessMessage" hidden></t>
-                        <button class="send-button" id="genreAddButton">Add</button>
-
-                    </fieldset>
-
-                </div>
-            {% endif %}  
-
-            {% if user == 'manager' or user == 'admin' %}
-                <div class="container" id="managerContainerArtist" style="z-index: -1">
-
-                    <t class="label">Tool</t>
-                    <t class="name">Add Artist</t>
-
-                    <fieldset class="field">
-
-                        <input type="text" class="text-area" id="artistNameTextArea" placeholder="Name"></input>
-                        <input type="text" class="text-area" id="artistNickNameTextArea" placeholder="Nick name (can be empty)"></input>
-                        <input type="text" class="text-area" id="artistYearTextArea" placeholder="Origin year (can be empty)"></input>
-                        <select class="select" id="artistBandSelect"><option value="" disabled selected hidden>Band</option></select>
-                        <t class="error-message" id="artistErrorMessage" hidden></t>
-                        <t class="success-message" id="artistSuccessMessage" hidden></t>
-                        <button class="send-button" id="artistAddButton">Add</button>
-
-                    </fieldset>
-
-                </div>
-            {% endif %} 
-
-            {% if user == 'admin' %}
-                <div class="container" id="adminContainer" style="z-index: -1">
-
-                    <t class="label">Tool</t>
-                    <t class="name">SQL Query</t>
-
-                    <fieldset class="field">
-
-                        <input type="text" class="admin-text-area" id="queryTextArea" placeholder="Your SQL Query"></input>
-                        <t class="error-message" id="queryErrorMessage" hidden></t>
-                        <t class="success-message" id="querySuccessMessage" hidden></t>
-                        <button class="send-button" id="queryExecuteButton">Execute</button>
-
-                    </fieldset> 
-
-                </div>
-            {% endif %}
-
-        </div>         
-
-        
-        <script src="\static\scripts\index\lists.js"></script>
-        <script src="\static\scripts\index\functions.js"></script>
-        <script src="\static\scripts\index\event-listeners.js"></script>
-
+        <table id="table" class="cipher-table"></table>
 
     </body>
+
+    <script>
+
+        const russianAlphabet = "абвгдежзийклмнопрстуфхцчшщыъьэюя";
+        const maxPhraseSize = 100;
+        const maxKeySize = 100;
+
+        function checkLine(line, alphabet){
+            for (var i = 0; i < line.length; ++i) {
+                if (alphabet.search(line.charAt(i)) == -1){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function getNewChar(oldChar, table, tableHeight, tableWidth){
+            var oldI = 0;
+            var oldJ = 0;
+            for (var i = 0; i < tableHeight; ++i){
+                for (var j = 0; j < tableWidth; ++j){
+                    if (table[i][j] == oldChar){
+                        oldI = i;
+                        oldJ = j;
+                        break;
+                    }
+                }
+            }
+            var newChar = "";
+            if (oldI == tableHeight - 1){
+                newChar = table[0][oldJ];
+            }
+            else {
+                newChar = table[oldI + 1][oldJ];
+            }
+            return newChar;
+        }
+
+        function generateTable(key, alphabet){
+            var table = [];
+            const height = 4;
+            const width = 8;
+            for (var i = 0; i < height; ++i){
+                var currentLine = [];
+                for (var j = 0; j < width; ++j){
+                    currentLine.push("");
+                }
+                table.push(currentLine);
+            }
+
+            var row = key + alphabet;
+            var uniqueRow = "";
+            for (var i = 0; i < row.length; ++i){
+                var curChar = row.charAt(i);
+                if (uniqueRow.search(curChar) == -1){
+                    uniqueRow += curChar;
+                }
+            }
+
+            for (var i = 0; i < height; ++i){
+                for (var j = 0; j < width; ++j){
+                    table[i][j] = uniqueRow[i * width + j];
+                }
+            }
+
+            return table
+        }
+
+        function trisemusEncode(table, phrase, alphabet){
+            var ans = "";
+
+            for (var i = 0; i < phrase.length; ++i){
+                ans += getNewChar(phrase[i], table, table.length, table[0].length);
+            }
+
+            return ans
+        }
+
+        function convertToTableText(list){
+            var result = "";
+            for (var i = 0; i < list.length; ++i){
+                var currentRow = "<tr>";
+                for (var j = 0; j < list[i].length; ++j){
+                    currentRow += "<td>" + list[i][j] + "</td>";
+                }  
+                currentRow += "</tr>";    
+                result += currentRow;
+            }
+            return result;                
+        }
+
+        document.getElementById("confirm").addEventListener(
+            "click",
+            async function() {
+                var phrase = document.getElementById("phrase").value;
+
+                document.getElementById("errorMessage").hidden = true;
+                document.getElementById("resultMessage").hidden = true;
+
+
+                if (phrase.length >= maxPhraseSize){
+                    document.getElementById("errorMessage").innerHTML = `Фраза не должна быть длиннее ${maxPhraseSize} символов`;
+                    document.getElementById("errorMessage").hidden = false;
+                    return;
+                }
+
+                if (!checkLine(phrase, russianAlphabet)){
+                    document.getElementById("errorMessage").innerHTML = "Фраза должна состоять только из строчных букв русского алфавита";
+                    document.getElementById("errorMessage").hidden = false;
+                    return;
+                }
+
+                var key = document.getElementById("key").value;
+
+                if (key.length >= maxKeySize){
+                    document.getElementById("errorMessage").innerHTML = `Ключ не должен быть длиннее ${maxKeySize} символов`;
+                    document.getElementById("errorMessage").hidden = false;
+                    return;
+                }
+
+                if (!checkLine(key, russianAlphabet)){
+                    document.getElementById("errorMessage").innerHTML = "Ключ должен состоять только из строчных букв русского алфавита";
+                    document.getElementById("errorMessage").hidden = false;
+                    return;
+                }
+
+                var table = generateTable(key, russianAlphabet);
+
+                document.getElementById("table").innerHTML = convertToTableText(table);
+                document.getElementById("resultMessage").hidden = false;
+                document.getElementById("resultMessage").innerHTML = trisemusEncode(table, phrase, russianAlphabet);
+
+            }    
+        );
+
+    </script>
 
 </html>
