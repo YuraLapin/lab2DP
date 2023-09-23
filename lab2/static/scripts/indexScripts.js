@@ -105,27 +105,29 @@ document.getElementById("confirm").addEventListener(
             document.getElementById("errorMessage").innerHTML = "Фраза должна состоять только из строчных букв русского алфавита";
             document.getElementById("errorMessage").hidden = false;
             return;
-        }
+        }        
 
-        var key = document.getElementById("key").value;
-
-        if (key.length >= maxKeySize){
-            document.getElementById("errorMessage").innerHTML = `Ключ не должен быть длиннее ${maxKeySize} символов`;
-            document.getElementById("errorMessage").hidden = false;
-            return;
-        }
-
-        if (!checkLine(key, russianAlphabet)){
-            document.getElementById("errorMessage").innerHTML = "Ключ должен состоять только из строчных букв русского алфавита";
-            document.getElementById("errorMessage").hidden = false;
-            return;
-        }
-
-        var table = generateTable(key, russianAlphabet);
-
-        document.getElementById("table").innerHTML = convertToTableText(table);
         document.getElementById("resultMessage").hidden = false;
         document.getElementById("resultMessage").innerHTML = trisemusEncode(table, phrase, russianAlphabet);
 
+    }    
+);
+
+document.getElementById("generate").addEventListener(
+    "click",
+    async function() {
+        await $.ajax({
+            method: "POST",
+            url: "/generate_keys",            
+            success: function(result){
+                document.getElementById("p").innerHTML = result[0];
+                document.getElementById("q").innerHTML = result[1];
+                document.getElementById("m").innerHTML = result[2];
+                document.getElementById("n").innerHTML = result[3];
+                document.getElementById("e").innerHTML = result[4];
+                document.getElementById("d").innerHTML = result[5];
+                document.getElementById("y").innerHTML = -1;
+            }
+        });
     }    
 );

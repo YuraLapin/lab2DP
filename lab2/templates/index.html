@@ -3,28 +3,86 @@
 <html>
 
     <head>
+        <title>RSA</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="/static/styles/indexstyles.css">
-        <title>Таблица Трисемуса</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>  
     </head>
 
     <body class="body">
 
-        <t class="label">Фраза</t>
-        <input type="text" id="phrase" class="text-field"></input>
+        <div class="field-group">
 
-        <t class="label">Ключ</t>
-        <input type="text" id="key" class="text-field"></input>
+            <t class="label">Фраза</t>
+            <input type="text" id="phrase" class="input-field"></input>
 
-        <button id="confirm" class="button">Зашифровать</button>
+            <button id="generate" class="button">Сгенерировать ключи</button>
+            <button id="confirm" class="button">Зашифровать</button>
 
-        <t id="resultMessage" class="result-message" hidden></t>
-        <t id="errorMessage" class="error-message" hidden></t>
+            <t id="resultMessage" class="result-message" hidden></t>
+            <t id="errorMessage" class="error-message" hidden></t>
 
-        <table id="table" class="cipher-table"></table>
+        </div>
+
+        <div class="field-group">
+
+            <div class="parameter">
+
+                <t class="parameter-text">p =</t>
+                <t id="p" class="text-field" disabled></t>
+
+            </div>
+
+            <div class="parameter">
+
+                <t class="parameter-text">q =</t>
+                <t id="q" class="text-field" disabled></t>
+
+            </div>
+
+            <div class="parameter">
+
+                <t class="parameter-text">m =</t>
+                <t id="m" class="text-field" disabled></t>
+
+            </div>
+
+            <t class="label">Открытый ключ</t>
+
+            <div class="parameter">
+
+                <t class="parameter-text">n =</t>
+                <t id="n" class="text-field" disabled></t>
+
+            </div>
+
+            <div class="parameter">
+
+                <t class="parameter-text">e =</t>
+                <t id="e" class="text-field" disabled></t>
+
+            </div>
+
+            <t class="label">Закрытый ключ</t>
+
+            <div class="parameter">
+
+                <t class="parameter-text">d =</t>
+                <t id="d" class="text-field" disabled></t>
+
+            </div>
+
+            <div class="parameter">
+
+                <t class="parameter-text">y =</t>
+                <t id="y" class="text-field" disabled></t>
+
+            </div>
+
+        </div>        
 
     </body>
 

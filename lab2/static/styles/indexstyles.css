@@ -7,7 +7,7 @@
 }
 
 body{
-    display: grid;
+    display: flex;
     justify-content: center; 
     align-items: center;
     position: absolute;
@@ -16,12 +16,17 @@ body{
     transform: translate(-50%, -50%);
 }
 
+.field-group{
+    display: grid;
+    margin-left: 10px;
+}
+
 .label{
     margin-top: 10px;
     font-size: 25px;
 }
 
-.text-field{
+.input-field{
     border-radius: 0px;
     height: 30px;
     width: 400px;
@@ -30,13 +35,31 @@ body{
     background: #f4f4f4;
 }
 
-.text-field:hover{
+.input-field:hover{
     background: #eaeaea;
 }
 
-.text-field:focus{
+.input-field:focus{
     background: #cfcfcf;
     outline: none;
+}
+
+.parameter{
+    display: flex;
+    margin-top: 10px;
+}
+
+.parameter-text{
+    font-size: 18px;
+}
+
+.text-field{
+    border-radius: 0px;
+    height: 30px;
+    width: 400px;
+    border: 0;
+    padding: 5px;
+    margin-left: 5px;
 }
 
 .button{
@@ -58,7 +81,6 @@ body{
     background: #2889ff;
 }
 
-
 .error-message{
     width: 400px;
     background: #ffa3a3;
@@ -71,9 +93,4 @@ body{
     background: #65ff9b;
     margin-top: 10px;
     padding: 10px;
-}
-
-.cipher-table{
-    text-align: center;
-    margin-top: 10px;
 }
