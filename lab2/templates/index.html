@@ -17,7 +17,7 @@
         <div class="field-group">
 
             <t class="label">Фраза</t>
-            <input type="text" id="phrase" class="input-field"></input>
+            <textarea id="phrase" class="input-field" oninput="autoGrow(this)"></textarea>
 
             <button id="generate" class="button">Сгенерировать ключи</button>
             <button id="confirm" class="button">Зашифровать</button>
@@ -45,8 +45,8 @@
 
             <div class="parameter">
 
-                <t class="parameter-text">m =</t>
-                <t id="m" class="text-field" disabled></t>
+                <t class="parameter-text">phi(n) =</t>
+                <t id="phi" class="text-field" disabled></t>
 
             </div>
 
@@ -54,15 +54,15 @@
 
             <div class="parameter">
 
-                <t class="parameter-text">n =</t>
-                <t id="n" class="text-field" disabled></t>
+                <t class="parameter-text">e =</t>
+                <t id="e" class="text-field" disabled></t>
 
             </div>
 
             <div class="parameter">
 
-                <t class="parameter-text">e =</t>
-                <t id="e" class="text-field" disabled></t>
+                <t class="parameter-text">n =</t>
+                <t id="n1" class="text-field" disabled></t>
 
             </div>
 
@@ -77,8 +77,8 @@
 
             <div class="parameter">
 
-                <t class="parameter-text">y =</t>
-                <t id="y" class="text-field" disabled></t>
+                <t class="parameter-text">n =</t>
+                <t id="n2" class="text-field" disabled></t>
 
             </div>
 

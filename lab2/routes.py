@@ -1,5 +1,5 @@
 from lab2 import app
-from flask import render_template
+from flask import render_template, request
 import random, math
 
 
@@ -25,35 +25,20 @@ def generate_prime(min_val, max_val):
     return prime
 
 
-def mod_inverse(e, m):
-    for d in range(3, m):
-        if (d * e) % m == 1:
-            return d
-    raise ValueError('Обратное по модулю число не может быть найдено для e = {e} и phi = {phi}')
-
 def extended_euclidean (a, b):
     phi = a
 
-    x1 = 0
-    x2 = 1
-    y1 = 1
-    y2 = 0
+    x, xx, y, yy = 1, 0, 0, 1
 
-    while b > 0:
+    while b:
         q = a // b
-        r = a - q * b
-        x = x2 - q * x1
-        y = y2 - q * y1
-        a = b
-        b = r
-        x2 = x1
-        x1 = x
-        y2 = y1
-        y1 = y
+        a, b = b, a % b
+        x, xx = xx, x - xx*q
+        y, yy = yy, y - yy*q
 
-    print(x2, ' ', y2)
+    print('x, y ', x, ' ', y)
 
-    d = phi - abs(min(x2, y2))
+    d = phi + y
 
     return d
 
@@ -76,8 +61,22 @@ def generate_keys():
     while math.gcd(e, phi) != 1:
         e = random.randint(3, phi - 1)
 
-    #d = mod_inverse(e, phi)
-
     d = extended_euclidean(phi, e)
 
+    for i in range(1, 1000):
+        if pow(699, i, 779) == 21:
+            print("qwe: ", i)
+
     return [p, q, phi, n, e, d]
+
+
+@app.route('/cipher', methods=['POST'])
+def cipher():
+    phrase = request.form.get('phrase')
+    e = int(request.form.get('e'))
+    n = int(request.form.get('n'))
+
+    encoded_phrase = [ord(c) for c in phrase]
+    cipher_phrase = [pow(c, e, n) for c in encoded_phrase]
+
+    return cipher_phrase
