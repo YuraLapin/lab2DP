@@ -28,19 +28,41 @@ def generate_prime(min_val, max_val):
 def extended_euclidean (a, b):
     phi = a
 
-    x, xx, y, yy = 1, 0, 0, 1
+    x1 = 1
+    x2 = 0
+    y1 = 0
+    y2 = 1
 
     while b:
         q = a // b
-        a, b = b, a % b
-        x, xx = xx, x - xx*q
-        y, yy = yy, y - yy*q
+        a = b
+        b = a % b
+        x1 = x2
+        x2 = x1 - x2 * q
+        y1 = y2
+        y2 = y1 - y2 * q
 
-    print('x, y ', x, ' ', y)
+    print('x, y ', x1, ' ', y1)
 
-    d = phi + y
+    d = phi + y1
 
     return d
+
+
+def gcd_extended(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = gcd_extended(b % a, a)
+        return (g, x - (b // a) * y, y)
+
+
+def mod_inverse(e, phi):
+    g, x, y = gcd_extended(e, phi)
+    if g != 1:
+        raise Exception('Обратное по модулю число не может быть найдено')
+    else:
+        return x % phi
 
 
 @app.route('/generate_keys', methods = ['POST'])
@@ -61,11 +83,9 @@ def generate_keys():
     while math.gcd(e, phi) != 1:
         e = random.randint(3, phi - 1)
 
-    d = extended_euclidean(phi, e)
-
-    for i in range(1, 1000):
-        if pow(699, i, 779) == 21:
-            print("qwe: ", i)
+    #d = pow(e, -1, phi)
+    #d = extended_euclidean(e, phi)
+    d = mod_inverse(e, phi)    
 
     return [p, q, phi, n, e, d]
 
